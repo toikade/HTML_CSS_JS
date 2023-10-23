@@ -1,0 +1,60 @@
+
+<html>
+
+	<head>
+		<title>About Us</title>
+		<link href="acme_style.css" rel="stylesheet" type="text/css"/>
+		<script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
+	</head>
+<body>
+	<div id="header">
+		<div id="nav">
+			<ul>
+				<li class="home"><a href="index.html">Home</a></li>
+				<li><a href="contact.html">&raquo; Contact</a></li>
+				   <!-- <ul>
+						<li><a href="#">Technical Team</a></li>
+					<li><a href="#">Managerial Team</a></li>
+					<li><a href="#">Sales Team</a></li>
+					</ul>-->
+				<li class="this_page_nav"><a href="about-us.html">About us</a></li>
+				<li><a href="what-we-do.html">what we do</a></li>
+				<li><a href="history.html">History</a></li>
+				<li><a href="exco.html">&raquo; Executive Team</a></li>
+					   <!-- <ul>
+					<li><a href="#">CEO</a></li>
+					<li><a href="#">CFO</a></li>
+					<li><a href="#">Sales Manager</a></li>
+					<li><a href="#">Other Folks</a></li>
+						</ul>-->
+				<li><a href="products.html">Our Products</a></li>
+			</ul>
+		</div>
+		<div id="login">
+			<ul>
+				<li ><a href="#">Login</a></li>
+				<li ><a href="#">Sign Up</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div id="content">
+		<div id="left-side" class="column"></div>
+		<div id="center" class="column">
+			<h1>About Us</h1>
+			<p>We are a company recently created and part of ACME co LTD. WE basically do
+			what you know they have been doing as you can see in books, Comics, Cartoons.
+			We are a modern but ameliorated version of ACME.</p>
+		</div>
+		<div id="right-side" class="column"></div>
+	</div>
+	
+	<div id="footer"><p>&copy; Feel free to copy and use</p>
+	</div>
+	
+	<script type="text/javascript">
+		let ws=io('wss://api.gateio.ws/ws/v4/');
+			
+	</script>
+</body>
+</html>
