@@ -1,0 +1,107 @@
+<html>
+<head>
+	<title>DOM Test</title>
+	<script type="text/javascript">
+		function makediv(){
+			var myContainer=document.createElement("div"); //create a container
+			myContainer.setAttribute("id","container"); //set attributes for myContainer
+			myContainer.setAttribute("style","width:100%; height:100vh; border:1px solid; background:linear-gradient(180deg, #f8b196, #F67280, #C06C84, #6C5B7B, #355C7D); display:flex; flex-wrap:wrap; flex-direction:column; overflow:hidden");
+			//append myDIV to myContainer
+			
+			var myDIV=document.createElement("div"); 
+			//set id for myDIV
+			myDIV.id="round-box";	
+			myDIV.className="circle";
+			var circleText=document.createElement("span");
+			circleText.className="circleText";
+			//circleText.innerText=`${instantColor}`;
+			circleText.setAttribute("style","position:absolute; top:-5px; padding:0 5px; background-color:#3f4b4e; color:#d0e9ff; border-radius:5px; font:12px bold; visibility:hidden; z-index:1");
+			myDIV.appendChild(circleText);
+			//set style attributes for myDIV
+			myDIV.setAttribute("style","border:1px solid rgb(43, 192, 212); width:50px; height:50px; margin:5px 5px ; border-radius:50%; background-color:#000; position:relative; //float:left; .circle:hover .circleText(visibility:visible)");
+			//change backgroundColor of round-box
+			
+			myDIV.style.backgroundColor=getRandomColor();
+			//append myDIV to myContainer
+			myContainer.appendChild(myDIV);
+			//append myContainer to document
+			document.body.appendChild(myContainer);
+			var smallBox=document.querySelector("#round-box");
+			//get offsetWidth for myContainer
+			var myContainerWidth=Math.floor(smallBox.parentNode.offsetWidth/smallBox.offsetWidth);
+			//get offsetHeight for myContainer
+			var myContainerHeight=Math.floor(smallBox.parentNode.offsetHeight/smallBox.offsetHeight);
+			//get number of round-box to be created
+			var roundBoxCount=myContainerWidth*myContainerHeight;
+			//function for adding round-box to myContainer
+			//function addDIV(){
+				if (document.querySelector("#container").innerHTML!='') { //if the screen is not clear
+					document.querySelector("#container").innerHTML=='';  // make it clear
+				};
+				//document.body.appendChild(myDIV);
+				var i=0;
+				for (var i=1;i<=roundBoxCount-1;i++){
+				smallBox.parentNode.appendChild(smallBox.cloneNode(true))
+				}
+				changeColor();
+			//}; 
+			//function for removing all the round-box from myContainer
+			
+			
+		}
+		
+		Arr=[]; 
+		function getRandomColor(){
+			color="";
+			while(!color){
+				var letters = '0123456789ABCDEF';
+				var color = '#';
+				for (var i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+				for (var i of Arr){
+					if(i==undefined||i==color){
+						color="";
+					}
+				}
+			}
+			if(color!==""){
+			Arr.push(color);
+			return color;
+			}
+		}
+			
+		function changeColor(){
+			Arr=[];
+			
+			var smallBoxArr=Array.prototype.slice.call(document.querySelector("#container").childNodes, 0)
+			for(var i=0;i<smallBoxArr.length;i++){
+				var instantColor=getRandomColor();
+				smallBoxArr[i].style.backgroundColor=instantColor;
+				smallBoxArr[i].firstChild.innerText=instantColor;
+				smallBoxArr[i].addEventListener("mouseenter", function showCircleText(){
+																				this.firstChild.style.visibility="visible";
+																		}, false);
+			
+				smallBoxArr[i].addEventListener("mouseleave", function hideCircleText(){
+																				this.firstChild.style.visibility="hidden";
+																		}, false);		
+				//smallBoxArr[i].addEventListener("click", copyCircleText, false);														
+			}
+		}
+		
+		/* function copyCircleText(){
+				let circleText=this.firstChild.innerText;
+				circleText.select();
+				//circleText.setSelectionRange(0, 9999);
+				//document.execComand('copy'); 
+				console.log(circleText);
+				}; */
+		
+		
+	</script>
+</head>
+<body onload="makediv()">
+	<button id="add-div" onclick="changeColor()">change colors</button>
+</body>
+</html>
