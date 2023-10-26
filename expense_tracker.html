@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>expense tracker</title>
+	<link rel="stylesheet"  href="expense_tracker.css" type="text/css" >
+</head>
+<body>
+	<h1 style="text-align:center;">EXPENSE TRACKER</h1>
+	<form method="get" autocomplete="off" id="expenseTracker" style="text-align:center;">
+		<label for="expenditure">Name</label>
+		<input type="text" id="expenditure" placeholder="expenditure" name="expenditure" required>
+		<label for="amount">Amount</label>
+		<input type="number" id="amount" min="25" style="width:10%;" required>
+		<select value="currency" id="select_list">
+			<option value="XAF">Franc CFA</option>
+			<option value="USD">US Dollar</option>
+			<option value="EUR">Euro</option>
+			<option value="NAI">Naira</option>
+		</select>
+		<label for="date">Date</label>
+		<input type="date" id="date" min="2020-10-10" required><br><br>
+		<input type="button" value="Save" onclick="update_list()">
+	</form>
+	<hr/>
+	<table id="display_area">
+		<caption>expense tracker</caption>
+		<tr>
+			<th>name</th>
+			<th>expenditure</th>
+			<th>date</th>
+			<th></th>
+		</tr>
+	</table>
+	<p >TOTAL EXPENDITURE:<span id="total_expenditure">10000000 XAF</span></p>
+	<script type="text/javascript">
+	let formInputs=document.getElementsByTagName('input');
+	let iter=0;
+	let printAmount=document.getElementById("total_expenditure");
+	printAmount.innerHTML=0;
+		function update_list(){
+			let currencyName=document.getElementById('select_list').value;
+			let messageBody=document.createDocumentFragment();
+			let table=document.getElementById('display_area');
+			let table_tr=document.createElement('tr');
+				table_tr.setAttribute("class",`tr${iter}`);
+				table_tr.setAttribute("id",`id${iter}`);
+			let table_td=document.createElement('td');
+			let table_clearBtn=document.createElement('button');
+				table_clearBtn.innerHTML='clear';
+				table_clearBtn.setAttribute("class",`tr${iter}`);
+			let expenditure=document.getElementById('expenditure').value+''+currencyName;
+			let amount=document.getElementById('amount').value;
+			let date=document.getElementById('date').value;
+			let getAmount;
+			
+			if(validator()){
+						//console.log(validator());
+						let table_td_Arr=[];
+						for(let i=0; i<3; i++){
+								table_td_Arr.push('table_td'+i);
+								//console.log(table_td_Arr, table_td_Arr.length);
+						}
+						for(let i=0; i<table_td_Arr.length; i++){
+							table_td_Arr[i]=document.createElement('td');
+							if(formInputs[i].id=="amount"){
+								table_td_Arr[i].innerHTML=formInputs[i].value+' '+currencyName;
+								table_tr.appendChild(table_td_Arr[i]);
+								continue;
+							}
+							//console.log(table_td_Arr[i], table_tr+'first');
+							table_td_Arr[i].innerHTML=formInputs[i].value;
+							table_tr.appendChild(table_td_Arr[i]);
+							//console.log(table_td_Arr[i]+'last');
+						}	
+				table_tr.appendChild(table_clearBtn);
+				messageBody.appendChild(table_tr);
+				table.appendChild(messageBody);
+										
+			};
+			//console.log(`tr${iter}`);
+			document.getElementsByClassName(`tr${iter}`)[0].lastElementChild.addEventListener('click', clearItem, false);
+			document.getElementById("expenseTracker").reset();
+			document.getElementById('expenditure').focus();
+			/*this.addEventListener('click', ()=>alert("hello"));*/
+			
+			getAmount=parseInt(document.getElementsByClassName(`tr${iter}`)[0].firstElementChild.nextSibling.innerHTML);
+			//console.log(typeof(getAmount));
+			printAmount.innerHTML=parseInt(printAmount.innerHTML)+getAmount+' '+currencyName;
+			//totalExpenditure();
+			iter+=1;
+		};
+		
+		
+		//fxn below makes sure all the inputs are filled before submit
+		function validator(){
+			for(let i=0;i<formInputs.length;i++){
+				if(formInputs[i].value===""){
+					alert('fill all boxes');
+					checkBoxes();
+					return;
+				}
+			}
+			function checkBoxes(){
+				for(let i=0;i<formInputs.length-1;i++){
+						formInputs[i].value='';
+				}
+			}
+						return true;			
+		};
+		//function below clears the tr item from the table when clear is clicked
+		function clearItem(e){
+			document.getElementById('display_area').removeChild(document.getElementsByClassName(`${this.className}`)[0]);
+		}
+		//function below updates total expenditure from input amounts
+		function totalExpenditure(){
+			
+			
+		}
+	
+	</script>
+</body>
+</html>
