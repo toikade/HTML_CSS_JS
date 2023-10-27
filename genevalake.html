@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+	<title>test-file</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+		*{
+			box-sizing:border-box;
+			margin:0;
+			padding:0;
+		}
+		body{
+			display:flex;
+			justify-content:center;
+			align-items:center;
+			font-family: 'Roboto Mono', monospace;
+			font-size:15px;
+			height:100vh;
+		}
+		.container{
+			display:flex;
+			
+			align-items:center;
+			justify-content:center;
+			//border:2px solid red;
+			width:100%;
+			height:100%;
+			
+		}
+		.container__image{
+			display:flex;
+			flex-direction:column;
+			//flex-wrap:wrap;
+			justify-content:center;
+			//border:2px solid blue;
+			width:250px;
+			height:250px;
+			position:relative;
+			background-image:url('http://om1337.o.m.pic.centerblog.net/znzq6ac9.jpg');
+			background-size:cover;
+			border-radius:50%;
+			//transition: ease-in-out .1s;
+			//z-index:2;
+		}
+		.container__image:before{
+			content:'';
+			position:absolute;
+			width:100%;
+			height:100%;
+			//border:3px solid green;
+			background:inherit;
+			background-position:bottom;
+			filter:blur(40px) saturate(80%);
+			transform:scaleX(0.4);
+			transform-origin:right;
+			//border-radius:120px;
+			transition: .5s;
+			z-index:-1;
+			opacity:0;
+		}
+		.container__image_info{
+			position:relative;
+			//border:1px solid;
+			color:white;
+			line-height:1.5;
+			transition-delay:.25s;
+			transition:ease-in-out .2s;
+			opacity:0;
+		}
+		.container__image_location{
+			transition-delay: .15s;
+		}
+		.container__image:hover{
+			border-radius:0;
+			width:450px;
+			height:320px;
+		}
+		.container__image:hover:before{
+			width:100%;
+			opacity:1;
+			filter:blur(20px) saturate(70%);
+			transform:scale(2.8) translate3d(-18%, 0px, 0px);
+			
+		}
+		.container__image:hover .container__image_info{
+			transform:translate3d(-60%, 0px, 0px);
+			opacity:1;
+		}
+		
+		.container__image_author-link{
+			text-decoration:none;
+			color:#1f7854;
+		}
+		@media screen and (max-width: 500px){
+			body{
+				
+				background-color:#1a1b1f;
+			}
+			.container{
+			display:flex;
+			justify-content:center;
+			}	
+			.container__image{
+				width:150px;
+				height:150px;
+				align-self:flex-start;
+				margin-top:170px;
+				
+			}
+			.container__image:hover{
+			border-radius:0;
+			width:260px;
+			height:220px;
+		}
+			.container__image:hover:before{
+			width:100%;
+			opacity:1;
+			filter:blur(20px) saturate(70%);
+			transform:scale(1.5) translate3d(16%, 50%, 0px)
+		}
+			.container__image:hover .container__image_info{
+			transform:translate(0px, 200px);
+			opacity:1;
+		}
+		}
+		
+		@media screen and (min-width: 500px) and (max-width:800px){
+			body{
+				background-color: dodgerblue;
+			}
+		}
+	</style>
+	<script>
+	
+	</script>
+</head>
+<body >
+	<div class="container">
+		<div class="container__image">
+			<div class="container__image_author container__image_info">Design by
+			<a class="container__image_author-link" href="#" target="_blank">Ze nkul Mballa</a>
+			</div>
+			<div class="container__image_location container__image_info">
+			Geneva Lake Switzerland
+			</div>
+		</div>
+	</div>
+</body>
+</html>
