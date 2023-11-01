@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>memory_cards</title>
+		<script src="https://kit.fontawesome.com/ac7b44072f.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="memory_cards.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body onload="makeCards(getDifficultyLevel(), randomPicObject())">
+		<div id="progress_area">
+			<div id="progress_bar" class="animate"></div>
+		</div>
+		<div id="bg_logo">memory_cards</div>
+		<div id="score_area_mobile">
+		</div>
+		<div id="content">
+			<div id="card_area">
+			</div>
+			<div id="score_area">
+				
+			</div>
+		</div>
+		<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+		
+		<script type="text/javascript">
+		let selectedLanguage='en'; 
+		let languageModule={
+				'en':{
+						'score-area':['won', 'Moves', 'Time', 'Games won', 'Games Lost'],
+						'context-menu':['New game', 'Choose Level', 'Langue(fr)', 'Credits' ],
+						'buttons':['New Game', 'Exit'],
+						'difficulty':['Level', 'Beginner', 'Easy', 'Master', 'Expert']
+						},
+				'fr':{
+						'score-area':['victoires', 'Deplacements', 'Temps', 'Parties gagnées', 'Parties perdues'],
+						'context-menu':['Nouvelle partie', 'Niveau', 'Language(en)', 'Credits'],
+						'buttons':['Nouvelle Partie', 'Quitter'],
+						'difficulty':['Niveau', 'Débutant', 'Facile', 'Maitre', 'Expert']
+						}		
+			};
+		function langModule(){
+			let langModlang=languageModule[selectedLanguage];
+			let scoreAreaMobileMarkup=`
+				<span class="score_area_mobile_item">${langModlang['score-area'][0]}:</span>
+			<p class="score_area_mobile_item">${langModlang['score-area'][1]}: <span class=" turned_card_count"></span></p>
+			<p class="score_area_mobile_item">${langModlang['score-area'][2]}: <span class="timer"></span></p>
+			<span class="score_area_mobile_item"><i class="fas fa-bars"></i></span>
+			<ul class="context_menu">
+					<a href="javascript:void(0)"><li>${langModlang['context-menu'][0]}</li></a>
+					<a href="javascript:void(0)"><li>${langModlang['context-menu'][1]}</li></a>
+					<a href="javascript:void(0)"><li>${langModlang['context-menu'][2]}</li></a>
+					<a href="javascript:void(0)"><li>${langModlang['context-menu'][3]}</li></a>
+				</ul>
+			`;
+			$('#score_area_mobile').append(scoreAreaMobileMarkup);
+			let scoreAreaMarkup=`
+				<div id="icon_status">
+				<p>${langModlang['score-area'][1]}: <span class="turned_card_count"></span></p>
+				</div>
+				<div id="score_status">
+				<p>${langModlang['score-area'][3]}: <br>${langModlang['score-area'][4]}:</p>
+				</div>
+				<div id="buttons">
+				<button id="newGameButton">${langModlang['buttons'][0]}</button><br>
+				<button id="langButton">${langModlang['context-menu'][2]}</button>
+				<button>${langModlang['buttons'][1]}</button>
+				</div>
+				<div id="difficulty">
+					<p id="diff_level">${langModlang['difficulty'][0]}</p>
+					<form method="get" action="#" id="game_difficulty_select">
+						<label class="difficulty_buttons"><input type="radio" name="difficulty" value="Beginner" checked>${langModlang['difficulty'][1]}</label>
+						<label class="difficulty_buttons"><input type="radio" name="difficulty" value="Easy">${langModlang['difficulty'][2]}</label>
+						<label class="difficulty_buttons"><input type="radio" name="difficulty" value="intermediate">${langModlang['difficulty'][3]}</label>
+						<label class="difficulty_buttons"><input type="radio" name="difficulty" value="Expert">${langModlang['difficulty'][4]}</label>
+					</form>
+				</div>
+			`;
+			
+			$('#score_area').append(scoreAreaMarkup);
+			function changeLanguage(){selectedLanguage=selectedLanguage=='en'?'fr':'en';
+				$('#score_area_mobile').empty();
+				$('#score_area').empty();
+				langModule();
+				for(let i of $('.turned_card_count')){
+					i.textContent=0;
+				};
+				main();
+			};
+			
+			$('#langButton').on('click', function(){
+				changeLanguage();
+			});
+			$('#newGameButton').on('click', function(){
+				main();
+			});
+						
+			let menu=$('.fas'); /* fa-bars */
+			menu.on('click', menuOnclickHandler);
+			
+			function menuOnclickHandler(){
+				//prevents the timer from dropping to 0 on resume
+				$(this).off();
+				setInputState();
+				//let difficultyMarkup=$('#difficulty').detach();
+				$('.context_menu').toggle(150);
+				$('.context_menu').on('click', function(event){
+					if(event.target && event.target.nodeName == "LI"){
+						//if New game is selected from menu
+						if(event.target.textContent==languageModule[selectedLanguage]['context-menu'][0]){
+						$('.context_menu').slideUp(150);
+							main();
+						};
+						//if Choose level is selected from menu
+						if(event.target.textContent==languageModule[selectedLanguage]['context-menu'][1]){
+							
+							$('#difficulty').remove();
+							let difficultyMarkup=`
+								<div id="difficulty">
+									<p id="diff_level">${langModlang['difficulty'][0]}</p>
+									<form method="get" action="#" id="game_difficulty_select-mobile">
+										<label class="difficulty_buttons"><input type="radio" id="0" value="Beginner" >${langModlang['difficulty'][1]}</label>
+										<label class="difficulty_buttons"><input type="radio" id="1" value="Easy">${langModlang['difficulty'][2]}</label>
+										<label class="difficulty_buttons"><input type="radio" id="2" value="intermediate">${langModlang['difficulty'][3]}</label>
+										<label class="difficulty_buttons"><input type="radio" id="3" value="Expert">${langModlang['difficulty'][4]}</label>
+									</form>
+								</div>
+							`;							
+							$('body').append(difficultyMarkup);
+							//(un)check the previous checked button wrt firstState
+							$(`#game_difficulty_select-mobile #${initialState}`).prop('checked', firstState); 
+							//if a different button was selected check the newly selected button
+							if(newMobileInputState)$(`#game_difficulty_select-mobile #${newMobileInputState}`).prop('checked', true); 
+							//do something with the newly selected input button
+							inputChangeCheck();
+							
+						};
+						//if language is selected from menu
+						if(event.target.textContent==languageModule[selectedLanguage]['context-menu'][2]){
+							changeLanguage();
+						};
+								
+							/*case 'Choose Level': 
+							case 'Language': 
+							case 'Credits':*/
+						
+					};
+					//$('.context_menu').slideUp(150);
+						
+					//window.gameTimer.resume();
+				});
+				//menu is visible
+				if($('.context_menu').css('display')!=='none'){
+					//pause game
+					gameTimer.pause();
+					//remove eventlisteners from cards
+					for(let i=0; i<$('.cards').length; i++){
+						let className=document.getElementsByClassName(`cardClass${i}`)[0];
+						className.removeEventListener('click', hideCardBack, false);
+						className.removeEventListener('click', showCardBack, false)
+					};
+					//if card_area or context_menu or menu is clicked
+					$("#card_area, ul.context_menu, i.fas").on('click', function(){
+						//hide the context_menu
+						$('.context_menu').slideUp(150);
+						//add eventlisteners to the cards
+						for(let i=0; i<$('.cards').length; i++){
+							let className=document.getElementsByClassName(`cardClass${i}`)[0];
+							className.addEventListener('click', hideCardBack, false);
+							className.addEventListener('click', showCardBack, false);
+							//remove eventlistener from card_area
+							$(this).off('click');
+							
+						};
+						gameTimer.resume();
+						if($('.context_menu').css('display')!=='none'){
+								menu.on('click', menuOnclickHandler);
+							};
+					});
+					/* $('.context_menu').on('click', function(){
+						$('.context_menu').slideUp(150);
+						$(this).off('click');
+					}); */
+					
+				};
+				//menu is not visible
+				
+				/* $('#card_area').on('click', function(event){
+					$('.context_menu').slideUp(150);
+					gameTimer.resume();
+					$('#difficulty').slideUp(150);
+					$(this).off('click');
+				}); */
+			
+			};
+			
+			
+		};
+		langModule();
+		
+			for(let i of $('.turned_card_count')){
+				i.textContent=0;
+			};
+						
+			let gameDifficulty=document.getElementsByClassName('difficulty_buttons');
+			let cardArea=document.querySelector('#card_area');
+			let NewGameButton=document.getElementsByTagName('button')[0];
+				NewGameButton.addEventListener('click', main);
+			let exitButton=document.getElementsByTagName('button')[1];
+				//exitButton.addEventListener('click', ()=>{window.close()});
+				window.onresize=main;
+			let progressBar=document.getElementById('progress_bar');
+			let progressBarTime=getDifficultyLevel()[3];
+			let inputChanged=null;
+			let firstState=true;
+			let initialState;
+			let gameTime=getDifficultyLevel()[3];
+			let newMobileInputState;
+			let openCardCounter=0;
+			let closeCardsClassArray=[];
+			let cardsTurned=document.querySelectorAll('.turned_card_count');
+			let checkCardsArray=Array(0); //Array with 2 numbers i.e index of cards whose classname will be used to manipulate the card
+			let checkCardsArrayLengthIter=0;
+			let displayedCards=[];
+			let correctCardClassNames=[];
+			let gameTimer = startTimer(gameTime);/* , function() {console.log("Done!");} */
+					console.log(gameTime);
+			function setInputState(){
+				for(let i=0; i<gameDifficulty.length; i++){
+					if(gameDifficulty[i].control.checked){
+						initialState=i;
+						console.log('STATE', initialState);
+					}
+				}
+			};
+			console.log(gameTime);
+			//let timerId=setInterval(addWidth, 20);
+			function inputChangeCheck(){
+				
+				for(let i=0;i<gameDifficulty.length;i++){
+					gameDifficulty[i].addEventListener('input', function(event){
+						newMobileInputState=event.target.id;
+						console.log('NEWSTATE', newMobileInputState);
+						if($('#difficulty').css('position')=='absolute'){
+							$('.difficulty_buttons')[initialState].control.checked=false
+						};
+						main();
+						if($('#difficulty').css('position')=='absolute'){
+							$('#difficulty').hide();
+						}; //check if mobile-version
+						firstState=false;
+					});
+				};
+				
+			};
+			inputChangeCheck();	
+			window.screen.orientation.lock('portrait');
+			let iter=0;
+			/* cardArea.addEventListener('resize', function(){
+				console.log('RESIZE', );
+				let newCardAreaWidth=cardArea.offsetWidth;
+				let newCardAreaHeight=cardArea.offsetHeight;
+				console.log(newCardAreaHeight, newCardAreaWidth);
+				$('#card_area').empty();
+				makeCards(getDifficultyLevel(), randomPicObject(), newCardAreaWidth, newCardAreaHeight)
+				console.log('here');
+				}); */
+			function main(){
+				//progressBar.classList.remove('active');
+				//timer(true);
+				//progressBar.style.display="none";
+				iter=0;
+				cardArea.innerHTML='';
+				//countdown function
+				gameTime=getDifficultyLevel()[3];
+				gameTimer.stop();
+				//gameTimer.newTime(gameTime);
+				//gameTimer.resume();
+				console.log(gameTimer);
+				gameTimer = startTimer(gameTime );/* function() {console.log("Done!");} */
+				makeCards(getDifficultyLevel(), randomPicObject());
+				
+			};
+			function makeCards(getDifficultyLevel, randomPicObject, newCardAreaWidth, newCardAreaHeight){
+				console.log(newCardAreaHeight, newCardAreaWidth);
+				//console.log(randomPicObject);
+				let difficultyLevelArr=arguments[0];
+				let numberOfCards=difficultyLevelArr[0];
+				let randomPicObjectKeys=Object.keys(randomPicObject);
+				//console.log(randomPicObject);
+				let difficultyWidth=difficultyLevelArr[1];
+				let difficultyHeight=difficultyLevelArr[2];
+				let	gameTime=difficultyLevelArr[3];
+					openCardCounter=0;
+					closeCardsClassArray=[];
+				let cardAreaWidth=newCardAreaWidth||cardArea.offsetWidth;
+				let cardAreaHeight=newCardAreaHeight||cardArea.offsetHeight;
+				let cardHeight=((cardAreaHeight-2)/difficultyHeight)-2;
+				let cardWidth=((cardAreaWidth-2)/difficultyWidth)-2;
+					console.log(cardAreaHeight, cardAreaWidth);
+					checkCardsArray=Array(0);
+					checkCardsArrayLengthIter=0;
+					displayedCards=[];
+					correctCardClassNames=[];
+					for(let i of $('.turned_card_count')){
+					i.textContent=0;
+				};
+				 
+				//CREATE THE CARD BACKS
+				for(let i=0;i<numberOfCards;i++){
+					
+					let cardBack=document.createElement('div');
+						cardBack.setAttribute('class', `cardClass${iter} cards`);
+						cardBack.setAttribute('id', `cardId${iter}`);
+						cardBack.setAttribute('style', `width:${cardWidth}px; height:${cardHeight}px;background-color:#1b2949;border:0.5px solid white;position:relative; z-index:1; border-radius:10px; ;`);<!-- float:left -->
+						cardBack.addEventListener('click', hideCardBack); 
+							
+						cardBack.addEventListener('click', showCardBack); 
+						
+						cardArea.appendChild(cardBack);
+						iter++;
+				}
+				
+				//ADD THE IMAGES
+				
+				for(let i=0;i<numberOfCards;i++){	
+				//console.log(numberOfCards);
+					let picture=document.createElement('img');
+					
+					let randomi=Math.floor(Math.random()*randomPicObjectKeys.length);
+					let randomPic=randomPicObjectKeys[randomi];
+					if(randomPicObject[randomPic]==2){
+						i--;
+						continue;
+					}else{
+						picture.setAttribute('src', `animalpics/${randomPic}.png`);
+						picture.setAttribute('class', 'card_image');
+						picture.setAttribute('style', `width:${cardWidth}px; height:${cardHeight}px; border:1px solid white; border-radius:5px; top:-${cardAreaHeight-2}px; position:relative; /*float:left;*/`);
+						cardArea.appendChild(picture);
+						randomPicObject[randomPic]+=1;
+						displayedCards.push(randomPic);
+						
+					}
+				};
+					/* //timer(inputChanged);
+					countDownModal();
+					//ANIMATION AS A TIMER
+					progressBar.style.animationDuration=`${progressBarTime}s`;
+					progressBar.classList.add('active');
+					//(progressBar.style.animationDuration);
+					progressBar.addEventListener('animationend', ()=>{
+						progressBar.style.width='100%';
+						
+						});
+						
+					
+				console.log(displayedCards);
+				//A MODAL BOX FOR INITIAL COUNTDOWN
+				function countDownModal(){
+					let counter=3;
+					let timeInterval=setInterval(countDownNumbers,1500);
+					let modal=document.createElement('div');
+						modal.id="countdown_modal";
+					let	modalSpan=document.createElement('span');
+						modalSpan.className='modal_span';
+						modal.appendChild(modalSpan);
+						document.body.insertBefore(modal, document.body.lastElementChild);
+						countDownNumbers();
+					
+						
+						
+						function countDownNumbers(){
+						let modalSpanContent=document.querySelector('.modal_span');
+							if(counter==0){
+								clearInterval(timeInterval);
+							}else{
+								modalSpanContent.textContent=counter;
+								console.log(counter);
+								counter--;
+						}
+						modal.style.display='none';
+					};
+					
+				}; */
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				console.log(gameTime);
+				/* //use setinterval to countdown every 1 sec
+				let countDownDigitTimer=setInterval(function(){
+					$('.timer').text(`${gameTime--}s`);
+					//console.log(gameTime--);
+					if(gameTime<0) clearInterval(countDownDigitTimer);
+				},1000);
+				//countDownDigitTimer; */
+				
+				
+				gameTimer.resume();
+				
+			};
+			//A FUNCTION TO CHANGE THE BACKGROUND COLOR OF THE MATCHED CARDS
+				function breakCards(){
+					for(let className of correctCardClassNames){
+						//console.log(className, typeof(className));
+						document.getElementsByClassName(`${className}`)[0].style.backgroundColor='#666666';
+						document.getElementsByClassName(`${className}`)[0].removeEventListener('click', showCardBack, false);
+						document.getElementsByClassName(`${className}`)[0].removeEventListener('click', hideCardBack, false);
+						
+					}
+				};
+			
+			// AFUNCTION TO GENERATE CLASSNAMES BY JOINING STRING AND NUMBER
+				function makeClassName(){
+					for (let i in checkCardsArray){
+					correctCardClassNames[i]='cardClass'+checkCardsArray[i];
+					}
+					return correctCardClassNames;
+				};
+			
+			//CHECK FOR THE RIGHT MATCH OF CARDS
+				function checkCorrectCards(){
+					if(displayedCards[checkCardsArray[0]]===displayedCards[checkCardsArray[1]]){
+						//remove the correct cards from the array of displayed cards
+						for(let index in checkCardsArray){
+							delete displayedCards[checkCardsArray[index]];
+						}
+						//make the cards break and dispappear
+						makeClassName();
+						window.setTimeout(breakCards,300);
+						
+						//increase the score after all the cards are broken
+					}else{
+						//hide the cards again
+					}
+				};
+			
+			/*A FUNCTION TO EXTRACT NUMBER FROM A STRING(IN THIS CASE CLASSNAMES)*/
+				function parseStrNumber(string){
+					let newstr='';
+					for(let i of string){
+						if(isNaN(parseInt(i))){ 
+						
+						}else{
+							newstr+=i;
+						}
+					}
+					return parseInt(newstr);
+				};
+			
+			//A FUNCTION TO SHOW THE PICTURES
+				function hideCardBack(){		//show the pictures
+					//document.getElementsByClassName(`${this.className}`)[0].style.transform='rotateY(50deg)';
+					//document.getElementsByClassName(`${this.className}`)[0].style.translate='all 5s';
+					
+					document.getElementsByClassName(`${this.className}`)[0].style.zIndex='-1'; //show the picture
+					if(checkCardsArray.length===2){ //if 2 cards are open
+				
+						checkCardsArray.length=0;
+						checkCardsArrayLengthIter=0;
+										
+					}
+						checkCardsArray[checkCardsArrayLengthIter]=parseStrNumber(`${this.className}`); 
+						checkCardsArrayLengthIter+=1;
+						console.log(checkCardsArray);
+						if(checkCardsArrayLengthIter===2){
+										
+							checkCorrectCards(); //check if the open pictures match
+						}			
+				};
+			
+			// A FUNCTION TO SHOW THE PICTURES
+				function showCardBack(){				//means hide the picture
+				let sum=parseInt($('.turned_card_count')[0].textContent); //cardsTurned[0]..could be as well cardsTurned[1] to grab the textContent of cardsTurned
+					//let theClass=document.getElementsByClassName(`${this.className}`)[0];
+					if(openCardCounter===2)openCardCounter=0; //check if 2 cards are open
+						openCardCounter++;
+						//console.log('occ:', openCardCounter, this.className);
+						closeCardsClassArray.push(this.className);
+					if(openCardCounter===2){
+						/*
+							I was using theClass above directly without defining it as a variable with setTimeout
+							but it was not working the browser could not get property style of undefined
+							so i had to define it as above for it to work.
+								
+							theClass.style.zIndex='1';}, 1000)};*/
+					for(let i of closeCardsClassArray){
+							window.setTimeout(function(){
+							document.getElementsByClassName(i)[0].style.zIndex='1';}, 300); //hide the pictures after 300ms
+					}
+							maxOpenCards=2;
+							sum++;
+					}
+						//cardsTurnedCount++;	
+						for(let i of cardsTurned){
+							console.log(sum);
+							i.textContent=sum;
+						}
+						cardsTurned.textContent=sum; /*increase the number of moves(card turned)*/
+				};
+				
+					
+					
+			
+				function startTimer(seconds, oncomplete) {
+					let startTime, timer, obj, ms = seconds*1000,
+						display = $('.timer');
+					obj = {};
+					obj.resume = function() {
+						startTime = new Date().getTime();
+						timer = setInterval(obj.step,250); // adjust this number to affect granularity
+											// lower numbers are more accurate, but more CPU-expensive
+					};
+					obj.pause = function() {
+						ms = obj.step();
+						clearInterval(timer);
+						console.log(this)
+					};
+					obj.step = function() {
+						let now = Math.max(0,ms-(new Date().getTime()-startTime)),
+							 m = Math.floor(now/60000), s = Math.floor(now/1000)%60;
+						s = (s < 10 ? "0" : "")+s;
+						display.text(`${m}:${s}`);
+						if( now == 0) {
+							obj.resume = function(){};
+							clearInterval(timer);							
+							if(oncomplete) oncomplete();
+							 return now;
+						};
+						
+						return now;
+					};
+					obj.stop = function(){
+						clearInterval(timer);
+					};
+					obj.newTime=function(time){
+						ms=time*1000;
+						console.log(ms);
+					};
+					return obj;
+				};
+			
+			//A COUNTDOWN TIMER FUNCTION AS PROGRESS BAR
+			/*CSS animations work better at timinG than this so I wont use this function*/
+				function timer(inputChanged){
+					let screenLength=document.body.offsetWidth;
+					let pixelPerSecond=screenLength/progressBarTime;
+					const framePerSecond=50;
+					let pixelChangePerFrame=pixelPerSecond/framePerSecond;
+					let initialProgressBarWidth=0;
+					let id=setInterval(addWidth, 20);
+					function addWidth(){
+						if(inputChanged||initialProgressBarWidth>=screenLength){
+						clearInterval(id);
+						progressBar.style.width=0;
+						}else{
+						initialProgressBarWidth+=pixelChangePerFrame;
+						progressBar.style.width=initialProgressBarWidth+'px';
+						
+						}
+					}
+					
+				};
+			
+			//A COUNTDOWN TIMER FUNCTION AS DIGITS
+				function digitTimer(inputTime){
+					$('.timer').text(`${inputTime--}s`);
+					console.log(inputTime--);
+					if(inputTime<0) clearInterval(countDownDigitTimer);
+				};
+			
+			
+			function randomPicObject(){
+					//console.log(numberOfCards);
+					
+						let animalArr=['bear','cow','croco','deer','dog','giraffe','elephant','hare','hippo','horse','leopard','lion','monkey','madagasmonk','panda','pig','rhino','sheep','tiger','zebra'];
+						let randomNum=Math.floor(Math.random()*20);
+						let randomPic=animalArr[randomNum];
+						let pictureObject={};
+						let numberOfCards=getDifficultyLevel()[0];
+						//console.log(randomPic);
+						//console.log(randomPic in pictureObject);
+						for(let i=0; i<numberOfCards/2; i++){
+							let randomNum=Math.floor(Math.random()*20);
+							//console.log(randomNum);
+							let randomPic=animalArr[randomNum];
+						if(randomPic in pictureObject){
+							i--; //console.log(i,'i--');
+							continue;
+						}else{
+							//console.log(i);
+							pictureObject[randomPic]=0;
+							
+							}
+						}
+						console.log('pictures',pictureObject);
+						return pictureObject;
+						
+
+			};
+			
+			function getDifficultyLevel(){
+				let difficultyLevelObject={
+					'0':[8,2,4,7],
+					'1':[16,4,4,40],
+					'2':[32,4,8, 80],
+					'3':[40,4,10,240]
+				};
+				
+				for(let i=0;i<gameDifficulty.length;i++){
+					if(gameDifficulty[i].control.checked==true){
+						console.log(gameDifficulty[i].control.value, difficultyLevelObject[i]);
+						return difficultyLevelObject[i];
+					}
+				}
+				alert('select a Difficulty Level');
+			}
+		</script>
+	</body>
+</html>	
