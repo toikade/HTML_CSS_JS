@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Notepad</title>
+	<link rel="stylesheet" type="text/css" href="expense_tracker.css">
+	<link rel="stylesheet" type="text/css" href="notepad.css">
+</head>
+<body>
+	<h1 style="text-align: center;">Notepad</h1><hr/>
+	<form method="get" action="" id="textarea_form" style="text-align:center;">
+	<label for="textarea">take down notes</label>
+	<textarea id="textarea" autofocus cols="100%" rows="12%" name="notepad" placeholder="write down something..." required></textarea>
+	<br><br>
+	<input type="button" value="save" onclick="submit_text()"><hr>
+	</form>
+	<table id="display_area" >
+		<caption>Saved Notes</caption>
+		<!--<tr>
+			<td>hello</td>
+			<td><button>view</button></td>
+		</tr>-->			
+	</table>
+	<div id="modal">
+		<div id="modal_content">
+			<h2>Text preview<span id="close_modal">&times;</span></h2>
+			<p id="modal_text_display"></p>
+		</div>
+	</div>
+	<script type="text/javascript">
+	let iter=0;
+		function submit_text(){
+			let textZone=document.getElementById('textarea');
+			if(textZone.value!==''){
+			let theForm=document.getElementById('textarea_form');
+			let messageBody=document.createDocumentFragment();
+			let table=document.getElementById('display_area');
+			let table_tr=document.createElement('tr');
+				table_tr.setAttribute("class",`tr${iter}`);
+				table_tr.setAttribute("id",`id${iter}`);
+				table_tr.setAttribute("style","text-align:right;");
+			let table_td1=document.createElement('td');
+			let table_td2=document.createElement('td');
+			let table_viewText=document.createElement('button');
+				table_viewText.innerHTML='view';
+				table_viewText.setAttribute("class",`tr${iter}`);
+			let textAreaText=textZone.value;
+			
+				//main
+				table_td1.innerHTML=textAreaText;
+				table_td2.appendChild(table_viewText);
+				table_tr.appendChild(table_td1);
+				table_tr.appendChild(table_td2);
+				//table_tr.appendChild(table_viewText);
+				messageBody.appendChild(table_tr);
+				table.appendChild(messageBody);
+				//shorten the text if it's too long
+			let tdElement=document.getElementsByClassName(`tr${iter}`)[0].firstElementChild;
+				if(tdElement.scrollWidth>tdElement.offsetWidth){
+					tdElement.style.overflow="hidden";
+					tdElement.style.textOverflow="ellipsis";
+				}
+				document.getElementsByClassName(`tr${iter}`)[0].lastElementChild.firstElementChild.addEventListener('click', viewText, false);
+				theForm.reset();
+				textZone.focus();
+				iter+=1;
+			}	
+				
+		};
+		function viewText(){
+			let closeBtn=document.getElementById('close_modal');
+				closeBtn.setAttribute('onclick', "close_modal()")
+			let modal=document.getElementById('modal');
+			let modal_content=document.getElementById('modal_content');
+			let modalText=document.getElementsByClassName(`${this.className}`)[0].firstElementChild.innerHTML;
+			let modal_text_display=document.getElementById('modal_text_display');
+				modal_text_display.innerHTML=modalText;
+				modal.style.display="block";
+				window.addEventListener('click', function(event){if(event.target==modal){modal.style.display="none";}});	
+		}
+		
+		function close_modal(){
+			modal.style.display="none";
+		}
+	</script>
+</body>
+</html>
+	
