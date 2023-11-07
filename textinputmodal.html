@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="textinputmodal.css">
+	</head>
+	<body>
+	<fieldset id="setclassroom" class="fieldset_style" >
+		<legend id="classroom_name">Enter Class Name</legend>
+		<form method="get" autocomplete="off" id="inputmodal" style="text-align:center;">
+		
+			<input type="text" id="inputtext" placeholder="Enter class name" name="className" required>
+			<input type="button" class="right_submit_button" id="submitclassname" value="Submit" >
+	</fieldset>
+	
+	<fieldset id="setsubjects" style="display:none">
+		<legend id="subjects">Select FORM 1 subjects</legend>
+		<div id="subjectmodal" >
+			<div class="subjects_selected">dggddfdfdfgdf</div>
+		</div>
+		<div id="setsubjects_buttons">
+		
+		<input type="button" class="right_submit_button" id="subject_submit_button" value="Submit" >
+		<input type="button" id="button__return_to_setclassroom" value="Back"  >
+		</div>
+		
+	</fieldset>
+	<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+	<script src="textinputmodal.js"></script>
+	</body>
+</html>
