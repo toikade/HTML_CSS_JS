@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>todo list app</title>
+</head>
+<body>
+	<h1 style="text-align:center;">TO DO LIST</h1>
+	<form method="get" class="for" autocomplete="off" style="text-align:center;">
+		<label for="to_do_item">to do item:</label>
+		<input id="input_msg" type="text" name="to do item" maxlength="40" autofocus placeholder="todo item">
+		<input type="button" value="submit" onclick="update_list()">
+		<input type="reset" value="clear List" onclick="clear_list()">
+	</form>
+	<hr/>
+	<ol id="message_part" ></ol>
+	<script type="text/javascript">
+	document.getElementById("input_msg").onkeydown=pop_up;
+	let num=0;
+	let message=document.getElementById("input_msg").value;
+		function update_list(e){
+			let messageBody=document.createDocumentFragment();
+			let msg=document.createElement("li");
+			let clearBtn=document.createElement("button");
+			let message=document.getElementById("input_msg").value;
+			
+			
+			if(message!=""){
+			//msg.setAttribute("id", );
+			msg.setAttribute("class", `msg${num}`);
+			msg.setAttribute("style", "position:relative; width:55vw; margin:auto; text-overflow:ellipsis;");
+			clearBtn.innerHTML="delete";
+			clearBtn.setAttribute("class", `msg${num}`);
+			//clearBtn.setAttribute("value", "delete");
+			clearBtn.setAttribute("style", "display:inline; position:absolute; right:0;");
+			msg.innerHTML=message;
+			msg.appendChild(clearBtn);
+			messageBody.appendChild(msg);
+			//messageBody.appendChild(clearBtn);
+			document.getElementById("message_part").appendChild(messageBody);
+			num+=1;
+			}
+			for (let i=0; i<document.getElementsByTagName("button").length; i++){
+			document.getElementsByTagName("button")[i].addEventListener('click', clearItem, false);
+			document.getElementById("input_msg").value='';
+			document.getElementById('input_msg').focus();
+			//this.addEventListener('click', ()=>alert("hello"));
+			}
+			
+		}
+		function clear_list(){
+			document.getElementById("message_part").innerHTML="";
+			num=0;
+		}
+		function clearItem(e){
+			for(let i=0; i<document.getElementsByClassName(`${this.className}`).length; i++){
+				while(document.getElementsByClassName(`${this.className}`)[i]){
+				document.getElementsByTagName('ol')[0].removeChild(document.getElementsByClassName(`${this.className}`)[i]);
+				};
+			};
+			
+		}
+		
+		function pop_up(e){
+			if(document.getElementById("input_msg").value.length==document.getElementById('input_msg').maxLength){
+				alert('maximum characters allowed is 40');
+			}
+			console.log(document.getElementById("input_msg").value.length);
+			if(e.code=='Enter'){
+				update_list();
+				document.getElementsByTagName('input')[1].onkeydown=e.preventDefault();
+			};
+		}
+	</script>
+</body>
+</html>
