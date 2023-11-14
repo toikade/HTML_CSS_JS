@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vowel counter</title>
+	<link rel="stylesheet" href="vowel_counter.css" type="text/css">
+</head>
+<body onload="vowel_counter()">
+	<h1 style="text-align:center;">Vowel Counter</h1><hr>
+	<form method="get" action="#" id="vowel_count_form" style="text-align:center;" >
+		<label for="textarea">write down some text</label>
+		<textarea id="vowel_count_text" autofocus  placeholder="write down something..."></textarea>
+		<br><br>	
+	</form>
+	<div id="text_display_area">vowel count
+		<p id="text_display"></p>
+	</div>
+	<script type="text/javascript">
+		let inputTextArea=document.getElementById('vowel_count_text');
+			inputTextArea.addEventListener('keyup', vowel_counter);
+		function vowel_counter(){
+			let vowels=['a', 'e', 'i', 'o', 'u'];
+			let inputText=inputTextArea.value;
+			let textDisplayArea=document.getElementById('text_display_area');
+			let textDisplay=document.getElementById('text_display');
+			let vowelObject={};
+			let htmlString='';
+				for(let i of vowels){
+					vowelObject[i]=0;
+				}
+				for(let i of vowels){
+					for(let j of inputText){
+						if(i==j){
+							vowelObject[i]+=1;
+						}
+					}
+				}
+				function htmlStringMaker(){
+					for(let key in vowelObject){
+						htmlString+='<span>'+key+' : '+vowelObject[key]+'</span>'+'<br>'
+					}
+					return htmlString;
+				}
+			//add the html from the function to the <p> element
+				textDisplay.innerHTML=htmlStringMaker();
+		}
+	</script>
+</body>
+</html>
