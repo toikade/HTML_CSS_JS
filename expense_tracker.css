@@ -1,0 +1,13 @@
+table, th, td, caption{
+	//border:1px solid green;
+	width:95vw;
+	text-align:center;
+	border-collapse:collapse;
+	
+}
+#display_area tr:nth-child(even){
+	background-color:#c0c0c0;
+}
+#display_area tr:nth-child(odd){
+	background-color:#a0a0a0;
+}
