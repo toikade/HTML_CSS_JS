@@ -1,0 +1,158 @@
+
+		body{
+			background-color:grey;
+		}
+		.fieldset_style{
+			background-color:#fff;
+			border: 1px solid;
+			padding:50px;
+			width:200px;
+			height: 70px;
+			border-radius:5px;
+			position:relative;
+			top: 25vh;
+			left:37vw;
+			
+		}
+		.enterClassroomNameBanner{
+			color:white;
+			position:absolute;
+			background-color:dodgerblue;
+			top:1px;
+			width:98%;
+			left:1px;
+			border-radius:5px;
+			text-align:center;
+			font-size:1.5em;
+			
+		}
+		
+		.setsubjectsarea {
+			background-color:white;
+			border: 1px solid;
+			padding:50px;
+			width:500px;
+			height: 250px;
+			border-radius:5px;
+			position:absolute;
+			top: 20vh;
+			left:20vw;
+			overflow:auto;
+		}
+		
+		.classnamebanner {
+			color:white;
+			position:absolute;
+			background-color:dodgerblue;
+			top:1px;
+			width:99%;
+			left:1px;
+			border-radius:5px;
+			text-align:center;
+			font-size:1.5em;
+		}
+		
+		
+		 input[type="button"]{
+			background-color:#2183d5;
+			border-radius: 5px;
+			border:none;
+			padding:5px;
+			color:white;
+		}
+		.right_submit_button{
+			position:absolute;
+			bottom: 0;
+			right:15px;
+		}
+		
+		.button__returnto_setclassroom{
+			position:absolute;
+			bottom:0;
+			left:15px;
+		}
+		
+		.button__addsubjectsto_setsubjects{
+			position:absolute;
+			bottom:2px;
+			left:25px;
+		}
+		
+		.input__textarea{
+			border: 2px solid;
+			border-radius:5px;
+			padding:7px;
+		}
+		
+		.subjectmodal__area{
+			position:relative;
+			display:inline-grid;
+			grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+			border:1px solid grey;
+			padding:15px 20px 40px 20px;
+			
+			border-radius:5px;
+			
+			
+		}
+		
+		.weeklysubjectperiodmodal{
+			position:relative;
+			display:inline-grid;
+			grid-template-columns:1fr 1fr;
+			align-items:center;
+			flex-wrap:wrap;
+			border:1px solid grey;
+			border-radius:5px;
+			padding:15px 30px 40px 20px;
+		}
+		 .numberboxes{
+			height:20px;
+			width:50px;
+		}
+		
+		 .boxsubjects{
+			padding:5px;
+		}
+		 .checkboxsubjects{
+			display:inline-grid;
+			grid-template-columns:min-content auto;
+			grid-gap:0.5em;
+			justify-items:start;
+			font-size:0.5em;
+			font-weight:bold;
+			font-family:Verdana, Helvetica, Arial;
+			padding:10px;
+			vertical-align:center;
+		}
+		
+		.formarea{
+			position:relative;
+			display:inline-grid;
+			grid-template-columns:1fr 1fr;
+			align-items:center;
+			flex-wrap:wrap;
+			border:1px solid grey;
+			border-radius:5px;
+			padding:15px 30px 40px 20px;
+		}
+		
+		 .buttons__bottom_nav{
+			 position:absolute;
+			 bottom:10px;
+			 width:90vw;
+			 margin:0 0 0 3vw;
+			 //border:1px solid green;
+			 padding:15px;
+		}
+		
+		 .subjects_selected{
+			position:absolute;
+			top:0;
+			left:40%;
+			padding:3px;
+			border:1px solid;
+			border-radius:0 0 8px 8px;
+			font-size:10px;
+		}
+		
