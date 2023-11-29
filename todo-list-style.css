@@ -1,0 +1,13 @@
+.msg_class{
+	//color:red;
+}
+.msg_class:after{
+	content:'delete';
+	position:absolute;
+	width:10%;
+	height:100%;
+	border:1px solid;
+	right:0;
+	text-align:center;
+	border-radius:2px;
+}
