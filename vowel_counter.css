@@ -1,0 +1,38 @@
+body{
+	background-color:rgba(0,0,0,0.8);
+	color:#818181;
+	//position:fixed;
+}
+form label{
+	font-family:sans-serif;
+	color:#c3c3c3;
+}
+form textarea{
+	resize:none;
+	width:80vw;
+	height:30vh;
+	margin:auto;
+}
+#text_display_area{
+	color:#808080;
+	font-family:Helvetica;
+	border:1px solid;
+	text-align:center;
+	font-weight:bold;
+	background-color:rgba(0,0,0,0.6);
+	//position:fixed;
+	//bottom:0;
+}
+#text_display{
+	font-family:Arial, verdana, Helvetica;
+	border:1px solid;
+	color:rgb(255,255,255);
+	background-color:#59a8d2;
+	padding:10px 5px 10px 5px;
+	margin-top:0;
+	margin:auto;
+	width:30vw;
+	font-weight:bold;
+	font-size:16px;
+	text-align:center;
+}
