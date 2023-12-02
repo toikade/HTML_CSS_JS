@@ -1,0 +1,316 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');*/
+:root{
+	--black_theme_bg:#06060f;
+	--black_theme_color:#d0d2e8;
+	--black_hr_bg_color:#7377a4;
+	--blue_theme_bg:#0b0f47;
+	--blue_theme_color:#7377a4;
+	--blue_hr_bg_color:#9496aa;
+	--default_color:black;
+	--default_nav_bg:#075e54;
+}
+body{
+	margin:0;
+	font-family: 'Roboto', Helvetica, sans-serif;
+	position:relative;
+}
+body::-webkit-scrollbar{
+	display: none;
+	-ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.nav_bars{
+	background-color:var(--default_nav_bg);
+	height:50px;
+	width:100vw;
+	position:relative;
+	float:left;
+	//display:block;
+}
+#top_nav{
+	display:flex;
+	//grid-template-columns:20% 20% 20% 20% 20%;
+	justify-content:space-between;
+	//top:50px;
+	//border:3px solid red;
+	//float:left;
+	position:fixed; /*change to relative so that top_nav hides on_scroll*/
+}
+#bottom_nav{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	//border:1px solid orange;
+	//margin-bottom:10px;
+	//padding-bottom:10px;
+	top:50px;
+	//position:fixed;
+	box-shadow:0 0.1em 0.3em rgba(0,0,0,0.3);
+
+}
+#logo_text{
+	position:absolute;
+	top:35%;
+	//margin-right:55%;
+	margin-left:1.5%;
+	font-size:1.2em;
+	color:#FFFFFF;
+	grid-column:1/4;
+}
+
+#menu_dots{
+	float:left;
+	width:10px;
+	//border:3px solid red;
+	position:absolute;
+	right:2em;
+	top:0.6em;
+}
+._3-dots{
+	height:4px;
+	width:4px;
+	border-radius:50%;
+	background-color:#FFFFFF;
+	margin: 3px 3px 0 3px ;
+	position:relative;
+}
+._3_dots_menu{
+	list-style:none;
+	background-color: #FFFFFF;
+	margin:0;
+	padding:0;
+	display:inline;
+	position:fixed;
+	right:5px;
+	top:5px;
+	border-radius:2px;
+	box-shadow:0.2em 0.35em 0.7em rgba(0,0,0,0.3), -0.1em 0.2em 0.2em rgba(0,0,0,0.1);
+	z-index:2;
+	visibility:hidden;	
+	
+}
+._3_dots_menu li{
+	//background-color:blue;
+	padding:0.8em;
+}
+._3_dots_menu a{
+	list-style-type:none;
+	text-decoration:none;
+	color:var(--default_color);
+}
+#bottom_nav_list{
+	list-style-type:none;
+	display:flex;
+	justify-content:space-between;
+	flex-direction:row;
+	//float:left;    /*add the float in order to make the element contain its floated children.*/
+	padding:4px 8px 0 8px;
+	margin: 0.1em 0 0 0;
+	width:100%;
+	box-shadow:0 0.1px 0.3px rgba(0,0,0,0.5);
+}
+.bottom_nav_list_item{
+	display: inline;
+	//border:1px solid red;
+	font-family:Tahoma,verdana;
+	font-size:1.1em;
+	color:#FFFFFF;
+	padding-right:11vw;
+	padding-left:8vw;
+	padding-bottom:1.5em;
+	
+}
+
+#search_bar{
+	//border:1px solid cyan;
+	float:right;
+	position:absolute;
+	width:20px;  /* <--- 40% set width to 100vw in js so that search bar spans*/
+	right:50px;
+	top:0.6em;
+}
+
+.top_nav_items{
+	//border: 2px solid red;
+}
+
+#search_bar_button {
+	background-color:transparent;
+	//border:1px solid white;
+	//width:50px;
+	height:1.2em;	
+}
+#search_bar_arrow{
+	z-index:1;
+	position:fixed;
+	top:-25px;
+	left:-25px;
+	visibility:hidden;
+}
+input[type="search"] {
+	visibility:hidden;
+	position:relative;   /*set to absolute for the searchbar to stretch*/
+	width:100vw;
+	height:50px;
+	text-indent:2.4em;
+	font-size:1.5em;
+	z-index:1;
+	border:none;
+	box-shadow:0 4px 3px rgba(0,0,0,0.3);
+}
+input[type="search"]:focus{
+	border:none;
+	caret-color:#00544b;
+	outline:none;
+}
+/* #glass_cont{
+	position:relative;
+	//right:0;
+	top:0.8em;
+	border:2px solid orange;
+} */
+#glass_cont a{
+	cursor:default;
+}
+form{
+	position:relative;
+	//border: 1px solid orange;
+	width:235px;  
+	float:left;
+	//border:2px solid blue;
+}
+.camera-button{
+	margin-left:5%;
+	border:none;
+	padding-top:0.2em;
+	padding-left:1em;
+}
+/*#message_part span{
+	CREATE A TICK WITH THIS;
+	position:absolute;
+	top:200px;
+	left:400px;
+	width:3em;
+	height:5em;
+	border-right:2em solid green;
+	border-bottom:1.5em solid green;
+	transform: rotate(45deg);
+}*/
+#message_part{
+	position:absolute;
+	float:left;
+	width:100vw;
+	top:100px;
+	z-index:-1;
+	//border:2px solid red;
+}
+#message{
+	//border:3px solid red;
+	position:relative;
+	height:5em;
+}
+#message hr{
+	position:absolute;
+	bottom:0;
+	left:5em;
+	width:88%;
+	opacity:0.5;
+	background-color:grey;
+}
+.img1 img{
+	position:absolute;
+	margin:0.5em 0 0 0.8em;
+	//border:1px solid;
+	border-radius:50%;
+}
+.name1{
+	//border:1px solid green;
+	position:absolute;
+	top:0.5em;
+	left:5em;
+	font-weight:bold;
+	
+}
+.msg1{
+	//border:1px solid blue;
+	position:absolute;
+	top:2.4em;
+	left:5em;
+	color:rgba(0,0,0,0.7);
+}
+.time1{
+	//border:1px solid orange;
+	position:absolute;
+	top:0.5em;
+	right:1em;
+	color:rgba(0,0,0,0.8);
+}
+.time1_typing_text{
+	color:#075e54;
+}
+#whatsapp_select_contact{
+	width:50px;
+	height:50px;
+	background:rgb(38, 211, 102);
+	position:fixed;
+	bottom:2em;
+	right:1.5em;
+	border-radius:50%;
+	box-shadow:0.1em 0.4em 0.5em rgba(0,0,0,0.2), -0.2em 0.1em 0.5em rgba(0,0,0,0.2);	
+	}
+#whatsapp_select_contact span{
+	position:absolute;
+	margin:auto;
+	top:15px;
+	left:10px;
+		
+	}
+/*create the search_bar_button*/
+#loop:before {
+	content:'';
+	position:absolute;
+	top:20%;
+	left:28%;
+	width:8px;
+	height:8px;
+	border-radius:50%;
+	border:3px solid white;
+	//background-color:orange;
+	}
+#loop:after {
+	content:'';
+	position:absolute;
+	top:65%;
+	left:54%;
+	width:23px;
+	height:4px;
+	border-radius:5px;
+	//border:3px solid white;
+	background-color:white;
+	transform:rotate(47deg);
+	}
+#loop{
+	//float:right;
+	display:inline;
+	position:relative;
+	border:1px solid white;
+	width:25px;
+	height:25px;
+	transform:scale(0.1);
+	}
+
+@media screen and (max-width: 600px){
+	.bottom_nav_list_item{
+		padding-right:7vw;
+		padding-left:7vw;
+		font-size:15px;
+	}
+}
+
+@media screen and (max-width: 370px){
+	.bottom_nav_list_item{
+		padding-right:5vw;
+		padding-left:5vw;
+		font-size:14px;
+	}
+}
